@@ -25,9 +25,5 @@ while answer != '=':
         min_random = number + 1
     elif answer == '<':
         max_random = number - 1
-<<<<<<< HEAD
-    #print(min_random, max_random)
-=======
->>>>>>> develop
 else:
     print(number_history)

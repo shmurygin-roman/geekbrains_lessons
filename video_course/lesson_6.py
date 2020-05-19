@@ -3,11 +3,8 @@ import random
 print('Игра: Угадай число от 1 до 100!')
 
 number = random.randint(1, 100)
-<<<<<<< HEAD
 # print(number)
-=======
-#print(number)
->>>>>>> develop
+
 user_number = None
 count = 0
 levels = {1: 10, 2: 5, 3: 3}
