@@ -5,31 +5,35 @@
 
 sec = int(input('Введите время в секундах: '))
 
-if sec // 60 >= 0:
-    if sec % 60 < 10:
-        ss = f'0{str(sec % 60)}'
-    else:
-        ss = sec % 60
-else:
-    ss = sec
+# if sec // 60 >= 0:
+#     if sec % 60 < 10:
+#         ss = f'0{str(sec % 60)}'
+#     else:
+#         ss = sec % 60
+# else:
+#     ss = sec
+#
+# if sec // 60 >= 60:
+#     if sec % 60 < 10:
+#         mm = f'0{str(sec % 60)}'
+#     else:
+#         mm = sec % 60
+# else:
+#     if sec // 60 < 10:
+#         mm = f'0{str(sec // 60)}'
+#     else:
+#         mm = sec // 60
+#
+# if sec // 3600 > 0:
+#     if sec // 3600 < 10:
+#         hh = f'0{str(sec // 3600)}'
+#     else:
+#         hh = sec // 3600
+# else:
+#     hh = '00'
 
-if sec // 60 >= 60:
-    if sec % 60 < 10:
-        mm = f'0{str(sec % 60)}'
-    else:
-        mm = sec % 60
-else:
-    if sec // 60 < 10:
-        mm = f'0{str(sec // 60)}'
-    else:
-        mm = sec // 60
+hh = sec // 3600
+mm = (sec // 60) - (hh * 60)
+ss = sec % 60
 
-if sec // 3600 > 0:
-    if sec // 3600 < 10:
-        hh = f'0{str(sec // 3600)}'
-    else:
-        hh = sec // 3600
-else:
-    hh = '00'
-
-print(f'{hh}:{mm}:{ss}')
+print(f'{hh:02}:{mm:02}:{ss:02}')
