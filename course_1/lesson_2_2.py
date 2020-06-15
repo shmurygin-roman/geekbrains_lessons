@@ -30,3 +30,9 @@ if end_el is not None:
     new_list.append(end_el)
 
 print(new_list)
+
+# разбор решение
+for i in range(1, len(my_list), 2):
+    my_list[i - 1], my_list[i] = my_list[i], my_list[i - 1]
+
+print(my_list)
