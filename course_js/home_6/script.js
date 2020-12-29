@@ -2,13 +2,14 @@
 // Задание 1
 
 /*Каталог*/
+
 const itemProduct = {
     render(product) {
         return `<div class="product">
                     <div><b>Название</b>: ${product.product_name}</div>
                     <div><b>Цена за 1 шт.</b>: ${product.price} руб.</div>
                     <div><b>В наличии</b>: ${product.quantity} шт.</div>
-                    <button class="product__add_basket" id_product="${product.id_product}">В корзину</button>
+                    <button class="product__add_basket" data-id_product="${product.id_product}">В корзину</button>
                 </div>`;
     }
 };
@@ -47,12 +48,12 @@ const catalog = {
     init(basket) {
         this.catalogList = document.querySelector('.catalog-list');
         this.basket = basket;
-        this.catalogList.addEventListener('click', event => this.addBasket(event));
         this.render();
-
+        this.catalogList.addEventListener('click', event => this.addBasket(event));
     },
 
     render() {
+        this.catalogList.innerHTML = '';
         this.productList.forEach(el => {
             this.catalogList.insertAdjacentHTML('beforeend', this.itemProduct.render(el));
         });
@@ -61,6 +62,13 @@ const catalog = {
     addBasket(event) {
         if (!event.target.classList.contains('product__add_basket')) return;
         const id = +event.target.dataset.id_product;
+        this.subCatalog(id);
+    },
+
+    subCatalog(id) {
+        const product = this.productList.find(el => el.id_product === id);
+        product.quantity -= 1;
+        this.render();
         this.basket.addBasket(id);
     }
 };
@@ -93,6 +101,7 @@ const basket = {
     },
 
     render() {
+        this.basketList.innerHTML = '';
         if (this.products.length) {
             this.products.forEach(el => {
                 this.basketList.insertAdjacentHTML('beforeend', this.basketProduct.render(el));
@@ -123,7 +132,9 @@ const basket = {
         const product = this.catalog.find(el => el.id_product === id);
 
         if (product) {
-            this.products.push(product);
+            let product_copy = Object.assign({}, product);
+            product_copy.quantity = 1;
+            this.products.push(product_copy);
             this.render();
         } else {
             alert('Ошибка! Товар не добавлен.');
@@ -132,7 +143,6 @@ const basket = {
 };
 
 catalog.init(basket);
-
 basket.init(catalog.productList);
 
 
