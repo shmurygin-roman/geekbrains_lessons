@@ -132,11 +132,19 @@ const basket = {
         const product = this.catalog.find(el => el.id_product === id);
 
         if (product) {
-            let product_copy = Object.assign({}, product);
-            product_copy.quantity = 1;
-            this.products.push(product_copy);
-            this.render();
-        } else {
+            const productBasket = this.products.find(el => el.id_product === id);
+            if (productBasket) {
+                productBasket.quantity += 1;
+                this.render();
+            }
+            else {
+                let product_copy = Object.assign({}, product);
+                product_copy.quantity = 1;
+                this.products.push(product_copy);
+                this.render();
+            }
+        }
+        else {
             alert('Ошибка! Товар не добавлен.');
         }
     },
