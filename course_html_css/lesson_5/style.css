@@ -1,0 +1,113 @@
+/*шрифт для всего сайта*/
+body{
+    font-family: sans-serif;
+}
+/*класс для параграфа*/
+.text{
+    font-size: 16px;
+    line-height: 26px;
+    color: #1F3F68;
+}
+/*класс для заголовка h1*/
+.h1{
+    width: 510px;
+    font-size: 64px;
+    color: #1F3F68;
+}
+/*класс для заголовка h2 на странице контакты*/
+.h2_contacts{
+    font-weight: 500;
+    font-size: 44px;
+    text-align: center;
+}
+/*класс для заголовка h3*/
+.h3{
+    font-size: 36px;
+    text-align: center;
+}
+/*класс для заголовка h4*/
+.h4{
+    font-size: 20px;
+    line-height: 30px;
+    color: #1F3F68;
+}
+/*класс для полей ввода (input, textarea)*/
+.input_text{
+    border: 1px solid #356EAD;
+    box-sizing: border-box;
+    border-radius: 10px;
+    opacity: 0.4;
+}
+/*класс для кнопки*/
+.button{
+    background: #5A98D0;
+    box-shadow: 5px 20px 50px rgba(16, 112, 177, 0.2);
+    border-radius: 10px;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 26px;
+    text-align: center;
+    color: #FFFFFF;
+    text-transform: uppercase;
+}
+/*убираем по умолчанию для всех элементов*/
+*{
+    margin: 0;
+    padding: 0;
+}
+/*блок отвечающий за центрирование страницы*/
+.container{
+    max-width: 1200px;
+    margin: 0 auto;
+}
+/*меню сайта*/
+.menu{
+    list-style-type: none;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px;
+}
+/*текст под заголовком*/
+.top__text{
+    width: 425px;
+}
+/*карточка*/
+.card{
+    width: 359px;
+}
+/*контейнер для центрирования блока карточек*/
+.card_box{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+/*контент верхней части подвала*/
+.footer_content{
+    width: 495px;
+    padding: 10px;
+}
+/*заголовок подвала*/
+.h3_footer{
+    font-size: 36px;
+    text-align: left;
+    width: 340px;
+}
+/*инфа в подвале*/
+.footer_info{
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+}
+/**/
+.form{
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+}
+/*карта*/
+.map{
+    padding: 50px 0px;
+}

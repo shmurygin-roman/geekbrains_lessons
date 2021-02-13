@@ -1,0 +1,148 @@
+/*шрифт для всего сайта*/
+body{
+    font-family: sans-serif;
+}
+/*класс для параграфа*/
+.text{
+    font-size: 16px;
+    line-height: 26px;
+    color: #1F3F68;
+}
+/*класс для заголовка h1*/
+.h1{
+    font-size: 64px;
+    color: #1F3F68;
+}
+/*класс для заголовка h2 на странице контакты*/
+.h2_contacts{
+    font-weight: 500;
+    font-size: 44px;
+    text-align: center;
+}
+/*класс для заголовка h3*/
+.h3{
+    font-size: 36px;
+    text-align: center;
+}
+/*класс для заголовка h4*/
+.h4{
+    font-size: 20px;
+    line-height: 30px;
+    color: #1F3F68;
+}
+/*класс для полей ввода (input, textarea)*/
+.input_text{
+    border: 1px solid #356EAD;
+    box-sizing: border-box;
+    border-radius: 10px;
+    opacity: 0.4;
+}
+/*класс для кнопки*/
+.button{
+    background: #5A98D0;
+    box-shadow: 5px 20px 50px rgba(16, 112, 177, 0.2);
+    border-radius: 10px;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 26px;
+    text-align: center;
+    color: #FFFFFF;
+    text-transform: uppercase;
+}
+/*убираем по умолчанию для всех элементов*/
+*{
+    margin: 0;
+    padding: 0;
+}
+/*верхняя часть страницы*/
+.top{
+    height: 600px;
+    width: 100;
+    border: 5px solid red;
+}
+/*раздел информации в верхней части страницы*/
+.top__info{
+    height: 300px;
+    width: 400px;
+    border: 5px solid aqua;
+    margin-top: 50px;
+    box-sizing: border-box;
+}
+/*меню сайта*/
+.menu{
+    list-style-type: none;
+    display: flex;
+    justify-content: space-around;
+}
+/*действие при наведении на элементы меню*/
+.menu__link:hover::after{
+    content: ' << жми сюда';
+    color: red;
+}
+/*заголовок на странице контакты*/
+.header_contacts{
+    background-color: aqua;
+    border: 1px solid #356EAD;
+    padding: 10px;
+    text-align: center;
+}
+/*подвал сайта*/
+.footer{
+    background-color: aqua;
+    border: 5px solid red;
+    padding: 50px;
+    box-sizing: border-box;
+}
+/*верхняя часть подвала*/
+.footer_up{
+    border: 5px solid burlywood;
+    margin: 0px 50px;
+    box-sizing: border-box;
+}
+/*контент подвала*/
+.footer_content{
+    width: 400px;
+    border: 5px solid plum;
+    margin: 25px 0px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+/*нижняя часть подвала*/
+.footer_down{
+    border: 5px solid yellowgreen;
+    margin: 0px 50px;
+    box-sizing: border-box;
+}
+/*Все права защищены*/
+.footer_copy{
+    border: 5px solid plum;
+    margin: 25px 0px;
+    box-sizing: border-box;
+}
+/*карта*/
+.map{
+    border: 1px solid #356EAD;
+    padding: 50px;
+    clear: both;
+}
+/*раздел с контактами*/
+.info{
+    border: 1px solid #356EAD;
+    padding: 50px 150px;
+    float: left;
+}
+/*контент раздела с контактами*/
+.info_content{
+    padding: 10px;
+}
+/*раздел отправки сообщений*/
+.send_message{
+    border: 1px solid #356EAD;
+    padding: 10px;
+    overflow: hidden;
+    width: 400px;
+}
+/*контент раздела отправки сообщений*/
+.send_message_content{
+    padding: 10px;
+}
