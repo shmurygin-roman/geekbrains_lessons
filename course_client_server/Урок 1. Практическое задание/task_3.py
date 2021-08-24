@@ -15,5 +15,5 @@ for word in words:
     try:
         print(b'' + bytearray(word, encoding='ascii'))
     except ValueError as err:
-        print(word + ' - ' + str(err))
+        print(f'{word} - {str(err)}')
 

@@ -25,9 +25,9 @@ words = ('разработка', 'сокет', 'декоратор')
 for word in words:
     print(word)
     print(type(word))
-    for i in list(word):
-        print(i)
-        print(type(i))
+#    for i in list(word):
+#        print(i)
+#        print(type(i))
 
 words_2 = ('\u0440\u0430\u0437\u0440\u0430\u0431\u043e\u0442\u043a\u0430',
            '\u0441\u043e\u043a\u0435\u0442',
@@ -36,7 +36,7 @@ words_2 = ('\u0440\u0430\u0437\u0440\u0430\u0431\u043e\u0442\u043a\u0430',
 for word in words_2:
     print(word)
     print(type(word))
-    for i in list(word):
-        print(i)
-        print(type(i))
+#    for i in list(word):
+#        print(i)
+#        print(type(i))
 
