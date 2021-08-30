@@ -1,0 +1,32 @@
+{
+    "orders": [
+        {
+            "item": "принтер",
+            "quantity": "10",
+            "price": "5000",
+            "buyer": "Gazprom",
+            "date": "20.08.2021"
+        },
+        {
+            "item": "scanner",
+            "quantity": "15",
+            "price": "7500",
+            "buyer": "Rosneft",
+            "date": "21.08.2021"
+        },
+        {
+            "item": "принтер",
+            "quantity": "10",
+            "price": "5000",
+            "buyer": "Gazprom",
+            "date": "20.08.2021"
+        },
+        {
+            "item": "scanner",
+            "quantity": "15",
+            "price": "7500",
+            "buyer": "Rosneft",
+            "date": "21.08.2021"
+        }
+    ]
+}
