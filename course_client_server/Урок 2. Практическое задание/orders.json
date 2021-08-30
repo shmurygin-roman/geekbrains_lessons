@@ -1,7 +1,7 @@
 {
     "orders": [
         {
-            "item": "принтер",
+            "item": "РїСЂРёРЅС‚РµСЂ",
             "quantity": "10",
             "price": "5000",
             "buyer": "Gazprom",
@@ -15,7 +15,7 @@
             "date": "21.08.2021"
         },
         {
-            "item": "принтер",
+            "item": "РїСЂРёРЅС‚РµСЂ",
             "quantity": "10",
             "price": "5000",
             "buyer": "Gazprom",

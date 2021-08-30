@@ -23,11 +23,11 @@ input_var = {
     }
 }
 
-with open('file.yaml', 'w') as f:
+with open('file.yaml', 'w', encoding='utf-8') as f:
     yaml.dump(input_var, f, default_flow_style=False, allow_unicode=True, sort_keys=False)
 f.close()
 
-with open('file.yaml') as f:
+with open('file.yaml', 'r', encoding='utf-8') as f:
     content = yaml.load(f, Loader=yaml.FullLoader)
     print(content)
 f.close()

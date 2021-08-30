@@ -31,7 +31,7 @@ list_dict = [
 
 
 def write_order_to_json(el_dict):
-    with open(file_json) as f:
+    with open(file_json, 'r', encoding='utf-8') as f:
         content = f.read()
         obj = json.loads(content)
         obj_list = obj['orders']
@@ -40,7 +40,7 @@ def write_order_to_json(el_dict):
     obj_list.append(el_dict)
     obj['orders'] = obj_list
 
-    with open(file_json, 'w') as f:
+    with open(file_json, 'w', encoding='utf-8') as f:
         json.dump(obj, f, indent=4, ensure_ascii=False)
     f.close()
 

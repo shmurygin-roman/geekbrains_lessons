@@ -60,7 +60,7 @@ def get_data(files):
 
 def write_to_csv(file, files):
     data = get_data(files)
-    with open(file, 'w') as f:
+    with open(file, 'w', newline='', encoding='utf-8') as f:
         f_writer = csv.writer(f, delimiter=';')
         for row in data:
             f_writer.writerow(row)
@@ -70,5 +70,5 @@ def write_to_csv(file, files):
 write_to_csv(file_csv, files_txt)
 
 print(get_data(files_txt))
-with open(file_csv) as f:
+with open(file_csv, encoding='utf-8') as f:
     print(f.read())
