@@ -4,6 +4,10 @@ import json
 from socket import socket, AF_INET, SOCK_STREAM
 from utils import get_msg, send_msg
 from variables import ACTION, ACCOUNT_NAME, RESPONSE, MAX_CONNECTIONS, PRESENCE, TIME, USER, ERROR, DEFAULT_PORT
+import logging
+from config import config_server_log
+
+LOGGER = logging.getLogger('server')
 
 
 def process_client_msg(msg):
@@ -11,6 +15,7 @@ def process_client_msg(msg):
     Обработчик сообщений от клиентов, принимает словарь-сообщение от клинта, проверяет корректность,
     возвращает словарь-ответ для клиента
     """
+    LOGGER.debug(f'Разбор сообщения от клиента : {msg}')
     if ACTION in msg and msg[ACTION] == PRESENCE and TIME in msg and USER in msg and msg[USER][ACCOUNT_NAME] == 'Guest':
         return {RESPONSE: 200}
     return {
@@ -33,10 +38,10 @@ def main():
         if port < 1024 or port > 65535:
             raise ValueError
     except IndexError:
-        print('После параметра -\'p\' необходимо указать номер порта.')
+        LOGGER.error('После параметра -\'p\' необходимо указать номер порта.')
         sys.exit(1)
     except ValueError:
-        print('В качастве порта может быть указано только число в диапазоне от 1024 до 65535.')
+        LOGGER.critical(f'В качастве порта может быть указано только число в диапазоне от 1024 до 65535.')
         sys.exit(1)
 
     # Обрабатываем адрес
@@ -46,9 +51,10 @@ def main():
         else:
             address = ''
     except IndexError:
-        print('После параметра \'a\'- необходимо указать адрес, который будет слушать сервер.')
+        LOGGER.error('После параметра \'a\'- необходимо указать адрес, который будет слушать сервер.')
         sys.exit(1)
 
+    LOGGER.info(f'Запущен сервер, порт для подключений: {port}, адрес с которого принимаются подключения: {address}.')
     # Готовим сокет
     SERV_SOCK = socket(AF_INET, SOCK_STREAM)
     SERV_SOCK.bind((address, port))
@@ -58,14 +64,17 @@ def main():
 
     while True:
         CLIENT_SOCK, ADDR = SERV_SOCK.accept()
+        LOGGER.info(f'Установлено соедение с ПК {ADDR}')
         try:
             msg_from_client = get_msg(CLIENT_SOCK)
-            print(msg_from_client)
+            LOGGER.debug(f'Получено сообщение {msg_from_client}')
             response = process_client_msg(msg_from_client)
+            LOGGER.info(f'Cформирован ответ клиенту {response}')
             send_msg(CLIENT_SOCK, response)
+            LOGGER.debug(f'Соединение с клиентом {ADDR} закрывается.')
             CLIENT_SOCK.close()
         except (ValueError, json.JSONDecodeError):
-            print('Принято некорретное сообщение от клиента.')
+            LOGGER.error(f'Не удалось декодировать JSON строку, полученную от клиента {ADDR}. Соединение закрывается.')
             CLIENT_SOCK.close()
 
 
