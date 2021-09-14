@@ -4,7 +4,7 @@ import logging.handlers
 import os
 from pathlib import Path
 
-FORMATTER = logging.Formatter("%(asctime)s - %(levelname)-8s - %(message)s ")
+FORMATTER = logging.Formatter("%(asctime)s - %(levelname)-8s - %(filename)s - %(message)s ")
 
 FULL_PATH = os.path.dirname(os.path.abspath(__file__))
 PATH = os.path.join(str(Path(FULL_PATH).parents[0]), 'logs\client.log')

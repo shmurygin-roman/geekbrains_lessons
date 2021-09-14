@@ -7,10 +7,12 @@ from utils import get_msg, send_msg
 from variables import ACTION, PRESENCE, TIME, USER, ACCOUNT_NAME, RESPONSE, ERROR, DEFAULT_IP_ADDRESS, DEFAULT_PORT
 import logging
 import config.config_client_log
+from decor import log
 
 LOGGER = logging.getLogger('client')
 
 
+@log
 def create_presence(account_name='Guest'):
     """
     Генерирует запрос о присутствии клиента
@@ -26,6 +28,7 @@ def create_presence(account_name='Guest'):
     return out
 
 
+@log
 def process_ans(msg):
     """
     Разбирает ответ сервера
@@ -38,6 +41,7 @@ def process_ans(msg):
     raise ValueError
 
 
+@log
 def main():
     """
     Загружаем параметы коммандной строки

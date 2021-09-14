@@ -6,10 +6,12 @@ from utils import get_msg, send_msg
 from variables import ACTION, ACCOUNT_NAME, RESPONSE, MAX_CONNECTIONS, PRESENCE, TIME, USER, ERROR, DEFAULT_PORT
 import logging
 from config import config_server_log
+from decor import log
 
 LOGGER = logging.getLogger('server')
 
 
+@log
 def process_client_msg(msg):
     """
     Обработчик сообщений от клиентов, принимает словарь-сообщение от клинта, проверяет корректность,
@@ -24,6 +26,7 @@ def process_client_msg(msg):
     }
 
 
+@log
 def main():
     """
     Загрузка параметров командной строки, если нет параметров, то задаём значения по умоланию.
