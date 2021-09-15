@@ -9,7 +9,7 @@ FORMATTER = logging.Formatter("%(asctime)s - %(levelname)-8s - %(filename)s - %(
 FULL_PATH = os.path.dirname(os.path.abspath(__file__))
 PATH = os.path.join(str(Path(FULL_PATH).parents[0]), 'logs\client.log')
 
-FILE_HANDLER = logging.handlers.TimedRotatingFileHandler(PATH, encoding='utf8', interval=1, when='midnight')
+FILE_HANDLER = logging.FileHandler(PATH, encoding='utf8')
 FILE_HANDLER.setFormatter(FORMATTER)
 
 
