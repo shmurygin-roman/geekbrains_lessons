@@ -1,84 +1,113 @@
 """Программа-сервер"""
 import sys
 import json
-from socket import socket, AF_INET, SOCK_STREAM
-from utils import get_msg, send_msg
-from variables import ACTION, ACCOUNT_NAME, RESPONSE, MAX_CONNECTIONS, PRESENCE, TIME, USER, ERROR, DEFAULT_PORT
 import logging
+from time import time
+from socket import socket, AF_INET, SOCK_STREAM
+from argparse import ArgumentParser
+from select import select
+from utils import get_msg, send_msg
 from config import config_server_log
 from decor import log
+from variables import ACTION, ACCOUNT_NAME, RESPONSE, MAX_CONNECTIONS, PRESENCE, TIME, USER, ERROR, DEFAULT_PORT, \
+                      MESSAGE, MESSAGE_TEXT, SENDER
 
 LOGGER = logging.getLogger('server')
 
 
 @log
-def process_client_msg(msg):
+def process_client_msg(msg, msg_list, client):
     """
     Обработчик сообщений от клиентов, принимает словарь-сообщение от клинта, проверяет корректность,
     возвращает словарь-ответ для клиента
     """
     LOGGER.debug(f'Разбор сообщения от клиента : {msg}')
     if ACTION in msg and msg[ACTION] == PRESENCE and TIME in msg and USER in msg and msg[USER][ACCOUNT_NAME] == 'Guest':
-        return {RESPONSE: 200}
-    return {
-        RESPONSE: 400,
-        ERROR: 'Bad Request'
-    }
+        send_msg(client, {RESPONSE: 200})
+        return
+    elif ACTION in msg and msg[ACTION] == MESSAGE and TIME in msg and MESSAGE_TEXT in msg:
+        msg_list.append((msg[ACCOUNT_NAME], msg[MESSAGE_TEXT]))
+        return
+    else:
+        send_msg(client, {RESPONSE: 400, ERROR: 'Bad Request'})
+        return
+
+
+@log
+def arg_parser():
+    """
+    Парсер аргументов коммандной строки
+    """
+    parser = ArgumentParser()
+    parser.add_argument('-p', default=DEFAULT_PORT, type=int, nargs='?')
+    parser.add_argument('-a', default='', nargs='?')
+    namespace = parser.parse_args(sys.argv[1:])
+    address = namespace.a
+    port = namespace.p
+    # Проверим подходящий номер порта
+    if not 1023 < port < 65536:
+        LOGGER.critical(f'В качастве порта может быть указано только число в диапазоне от 1024 до 65535.')
+        sys.exit(1)
+    return address, port
 
 
 @log
 def main():
-    """
-    Загрузка параметров командной строки, если нет параметров, то задаём значения по умоланию.
-    """
-
-    # Обрабатываем порт
-    try:
-        if '-p' in sys.argv:
-            port = int(sys.argv[sys.argv.index('-p') + 1])
-        else:
-            port = DEFAULT_PORT
-        if port < 1024 or port > 65535:
-            raise ValueError
-    except IndexError:
-        LOGGER.error('После параметра -\'p\' необходимо указать номер порта.')
-        sys.exit(1)
-    except ValueError:
-        LOGGER.critical(f'В качастве порта может быть указано только число в диапазоне от 1024 до 65535.')
-        sys.exit(1)
-
-    # Обрабатываем адрес
-    try:
-        if '-a' in sys.argv:
-            address = sys.argv[sys.argv.index('-a') + 1]
-        else:
-            address = ''
-    except IndexError:
-        LOGGER.error('После параметра \'a\'- необходимо указать адрес, который будет слушать сервер.')
-        sys.exit(1)
-
+    # Загрузка параметров командной строки
+    address, port = arg_parser()
     LOGGER.info(f'Запущен сервер, порт для подключений: {port}, адрес с которого принимаются подключения: {address}.')
     # Готовим сокет
     SERV_SOCK = socket(AF_INET, SOCK_STREAM)
     SERV_SOCK.bind((address, port))
-
+    SERV_SOCK.settimeout(0.5)
+    # Список клиентов
+    clients = []
+    # Очередь сообщений
+    messages = []
     # Слушаем порт
     SERV_SOCK.listen(MAX_CONNECTIONS)
 
     while True:
-        CLIENT_SOCK, ADDR = SERV_SOCK.accept()
-        LOGGER.info(f'Установлено соедение с ПК {ADDR}')
         try:
-            msg_from_client = get_msg(CLIENT_SOCK)
-            LOGGER.debug(f'Получено сообщение {msg_from_client}')
-            response = process_client_msg(msg_from_client)
-            LOGGER.info(f'Cформирован ответ клиенту {response}')
-            send_msg(CLIENT_SOCK, response)
-            LOGGER.debug(f'Соединение с клиентом {ADDR} закрывается.')
-            CLIENT_SOCK.close()
-        except (ValueError, json.JSONDecodeError):
-            LOGGER.error(f'Не удалось декодировать JSON строку, полученную от клиента {ADDR}. Соединение закрывается.')
-            CLIENT_SOCK.close()
+            CLIENT_SOCK, ADDR = SERV_SOCK.accept()
+        except OSError:
+            pass
+        else:
+            LOGGER.info(f'Установлено соедение с ПК {ADDR}')
+            clients.append(CLIENT_SOCK)
+        # Список клиентов от которых получаем сообщения
+        clients_read = []
+        # Список клиентов которым отправляем сообщения
+        clients_write = []
+
+        try:
+            if clients:
+                clients_read, clients_write, errors = select(clients, clients, [], 0)
+        except OSError:
+            pass
+        # Принимаем сообщения
+        if clients_read:
+            for client in clients_read:
+                try:
+                    process_client_msg(get_msg(client), messages, client)
+                except:
+                    LOGGER.info(f'Клиент {client.getpeername()} отключился от сервера.')
+                    clients.remove(client)
+        # Отправляем сообщения
+        if messages and clients_write:
+            message = {
+                ACTION: MESSAGE,
+                SENDER: messages[0][0],
+                TIME: time(),
+                MESSAGE_TEXT: messages[0][1]
+            }
+            del messages[0]
+            for client in clients_write:
+                try:
+                    send_msg(client, message)
+                except:
+                    LOGGER.info(f'Клиент {client.getpeername()} отключился от сервера.')
+                    clients.remove(client)
 
 
 if __name__ == '__main__':
